@@ -6,6 +6,8 @@
     <title>Budget Planner</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
 
 <body>
@@ -13,32 +15,32 @@
     <form id="budgetForm" action="/result" method="post">
         <div class="logo-container">
             <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo" />
-            <span class="logo-text">BrokeNoMore</span><br><br>
+            <span class="logo-text">BrokeNoMore</span>
         </div>
         <div class="welcomeText" align="center">
-            <p>Let’s stop spending like Dangote. Get a saving strategy</p><br>
+            <p>Let’s stop spending like Dangote. Get a saving strategy</p>
         </div>
         <div id="error" class="error-box" style="display: none;"></div>
-
+        <br>
         <label for="income">Monthly Income (₦):</label>
-        <input type="number" name="income" id="income" required>
+        <input type="number" placeholder="Enter how much you earn monthly" name="income" id="income" required>
 
         <label for="goal">Savings Goal (₦):</label>
-        <input type="number" name="goal" id="goal" required>
+        <input type="number" placeholder="How much do you intend to save" name="goal" id="goal" required>
 
         <label for="timeline">Timeline (months):</label>
-        <input type="number" name="timeline" id="timeline" required>
+        <input type="number" placeholder="How long will you be saving" name="timeline" id="timeline" required>
 
         <h4>Optional: Customize Your Budget Percentages</h4>
 
         <label for="needs_pct">Needs (%):</label>
-        <input type="number" name="needs_pct" id="needs_pct" min="0" max="100">
+        <input type="number" placeholder="(e.g 50,30,20%)" name="needs_pct" id="needs_pct" min="0" max="100">
 
         <label for="wants_pct">Wants (%):</label>
-        <input type="number" name="wants_pct" id="wants_pct" min="0" max="100">
+        <input type="number"  placeholder="(e.g 50,30,20%)"name="wants_pct" id="wants_pct" min="0" max="100">
 
         <label for="savings_pct">Savings (%):</label>
-        <input type="number" name="savings_pct" id="savings_pct" min="0" max="100">
+        <input type="number" placeholder="(e.g 50,30,20%)" name="savings_pct" id="savings_pct" min="0" max="100">
 
         <p id="error"></p>
 
