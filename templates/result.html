@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Budget Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='result.css') }}">
+</head>
+
+<body>
+
+    <h2>Budget Breakdown: {{ (ruleBasedBudget['Needs'] / income * 100) | int }}/{{ (ruleBasedBudget['Wants'] / income * 100) | int }}/{{ (ruleBasedBudget['Savings'] / income * 100) | int }}%</h2>
+
+    <ul>
+        <li><strong>Needs ({{ (ruleBasedBudget['Needs'] / income * 100) | round(1) }}%):</strong> ₦{{
+            ruleBasedBudget['Needs'] }}</li>
+        <li><strong>Wants ({{ (ruleBasedBudget['Wants'] / income * 100) | round(1) }}%):</strong> ₦{{
+            ruleBasedBudget['Wants'] }}</li>
+        <li><strong>Savings ({{ (ruleBasedBudget['Savings'] / income * 100) | round(1) }}%):</strong> ₦{{
+            ruleBasedBudget['Savings'] }}</li>
+    </ul>
+
+    {% if monthly_saving_needed > ruleBasedBudget['Savings'] %}
+    <div class="status-message status-fail">
+        Your current savings plan may not meet your goal. Consider reducing Wants or extending your timeline.
+    </div>
+    {% else %}
+    <div class="status-message status-success">
+        Your current plan can help you achieve your goal in {{ timeline }} month(s)!
+    </div>
+    {% endif %}
+
+    <div class="budget-data">
+        <h3>Monthly Saving Recommendation</h3>
+        {% if monthly_saving_needed > ruleBasedBudget['Savings'] %}
+        <div class="recommendation">
+            <h4>This is the most achievable plan I could come up with:</h4>
+        </div>
+        {% endif %}
+        <p>To reach your goal of <strong>₦{{ goal }}</strong> in <strong>{{ timeline }}</strong> months,
+            you should <strong>save</strong> at least <strong>₦{{ monthly_saving_needed }}</strong> per month.</p>
+    </div>
+
+    <div class="chart-section">
+        <div class="chart-box">
+            <h3>The Minimum you can save</h3>
+            <img src="{{ url_for('static', filename='pie.png') }}" width="200px"  alt="User Budget Pie Chart">
+        </div>
+        {% if monthly_saving_needed < ruleBasedBudget['Savings'] %} <div class="chart-box">
+            <h3>Your Saving strategy {{ (ruleBasedBudget['Needs'] / income * 100) | int }}/{{ (ruleBasedBudget['Wants'] / income * 100) | int }}/{{
+            (ruleBasedBudget['Savings'] / income * 100) | int }}%</h3>
+            <img src="{{ url_for('static', filename='pie(1).png') }}" alt="Recommended Budget Pie Chart">
+    </div>
+    {% endif %}
+    </div>
+
+    <div align="center" class="budget-data">
+        <h3>Your Budget vs Average Nigerian's(yearly)</h3>
+        <img src="{{ url_for('static', filename='comparison.png') }}" alt="Comparison Chart" style="max-width: 100%;">
+
+    </div>
+
+</body>
+
+</html>

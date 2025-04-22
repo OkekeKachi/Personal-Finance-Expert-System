@@ -1,0 +1,119 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: #f4f6f8;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+form {
+    background: #fff;
+    padding: 1.5rem 2rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 500px;
+}
+
+h4 {
+    margin-top: 1.5rem;
+    color: #444;
+    font-size: 1rem;
+}
+
+label {
+    font-weight: 600;
+    margin-top: 0.7rem;
+    display: block;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.2rem;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: border-color 0.3s;
+}
+
+input[type="number"]:focus {
+    border-color: #3f51b5;
+    outline: none;
+}
+
+input[type="submit"] {
+    margin-top: 1.5rem;
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    font-size: 0.95rem;
+}
+
+input[type="submit"]:hover {
+    background-color: #2c3e94;
+}
+
+#error {
+    margin-top: 1rem;
+    color: #d32f2f;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.logo-container .logo {
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+}
+
+.logo-container .logo-text {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #3f51b5;
+}
+
+.welcomeText {
+    margin-bottom: 12px;
+}
+
+.welcomeText p {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #7e3fb5;
+}
+
+.error-box {
+    margin: 15px auto;
+    padding: 12px 16px;
+    max-width: 500px;
+    border: 2px solid #e74c3c;
+    background-color: #fdecea;
+    color: #c0392b;
+    font-weight: 600;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.9rem;
+    box-shadow: 0 0 8px rgba(231, 76, 60, 0.2);
+}

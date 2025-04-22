@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Budget Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <form id="budgetForm" action="/result" method="post">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo" />
+            <span class="logo-text">BrokeNoMore</span><br><br>
+        </div>
+        <div class="welcomeText" align="center">
+            <p>Let’s stop spending like Dangote. Get a saving strategy</p><br>
+        </div>
+        <div id="error" class="error-box" style="display: none;"></div>
+
+        <label for="income">Monthly Income (₦):</label>
+        <input type="number" name="income" id="income" required>
+
+        <label for="goal">Savings Goal (₦):</label>
+        <input type="number" name="goal" id="goal" required>
+
+        <label for="timeline">Timeline (months):</label>
+        <input type="number" name="timeline" id="timeline" required>
+
+        <h4>Optional: Customize Your Budget Percentages</h4>
+
+        <label for="needs_pct">Needs (%):</label>
+        <input type="number" name="needs_pct" id="needs_pct" min="0" max="100">
+
+        <label for="wants_pct">Wants (%):</label>
+        <input type="number" name="wants_pct" id="wants_pct" min="0" max="100">
+
+        <label for="savings_pct">Savings (%):</label>
+        <input type="number" name="savings_pct" id="savings_pct" min="0" max="100">
+
+        <p id="error"></p>
+
+        <input type="submit" value="Generate Strategy">
+    </form>
+
+    <script>
+        document.getElementById('budgetForm').addEventListener('submit', function (e) {
+            const income = parseFloat(document.getElementById('income').value);
+            const goal = parseFloat(document.getElementById('goal').value);
+            const timeline = parseInt(document.getElementById('timeline').value);
+
+            const needs = parseFloat(document.getElementById('needs_pct').value) || 0;
+            const wants = parseFloat(document.getElementById('wants_pct').value) || 0;
+            const savings = parseFloat(document.getElementById('savings_pct').value) || 0;
+            const totalPct = needs + wants + savings;
+
+            const errorBox = document.getElementById('error');
+            errorBox.textContent = '';
+
+            const monthlySavingNeeded = goal / timeline;
+
+            // 1. Goal too high to save for
+            if (monthlySavingNeeded > income) {
+                e.preventDefault();
+                errorBox.style.display = 'block';
+                errorBox.textContent = '🚫 Your goal is too high for this income and timeline. Please adjust.';
+
+                return;
+            }
+
+            // 2. If custom percentages are set, they must equal 100
+            if ((needs || wants || savings) && totalPct !== 100) {
+                e.preventDefault();
+                errorBox.style.display = 'block';
+                errorBox.textContent = '🚫 Budget percentages must add up to 100%.';
+                return;
+            }
+        });
+    </script>
+
+</body>
+
+</html>
