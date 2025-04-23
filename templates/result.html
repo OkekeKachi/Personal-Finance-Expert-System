@@ -42,6 +42,18 @@
             you should <strong>save</strong> at least <strong>₦{{ monthly_saving_needed }}</strong> per month.</p>
     </div>
 
+    {% if suggestions %}
+    <div class="suggestions">
+        <h3>💡 Smart Suggestions</h3>
+        <ul>
+            {% for key, value in suggestions.items() %}
+            <li><strong>{{ key }}:</strong> {{ value }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+
     <div class="chart-section">
         {% if monthly_saving_needed < ruleBasedBudget['Savings'] %} <div class="chart-box">
             <h3>Your Saving strategy {{ (ruleBasedBudget['Needs'] / income * 100) | int }}/{{ (ruleBasedBudget['Wants']

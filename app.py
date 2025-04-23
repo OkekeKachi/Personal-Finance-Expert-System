@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from helpers import load_data, create_default_pie_chart, create_recommended_pie_chart, create_comparison_bar_chart
+from utils.suggestions import generate_suggestions
 
 app = Flask(__name__)
 
@@ -55,6 +56,9 @@ def result():
         'Savings': round(savings, 2)
     }
 
+    # Generate smart suggestions
+    suggestions = generate_suggestions(income, budget)
+
     if monthly_saving_needed > income * 0.2:
     # # Stick with 50/30/20
     #     budget = {
@@ -96,7 +100,8 @@ def result():
         dataset_income=dataset_income,
         dataset_expense=dataset_expense,
         average_saving=average_saving,
-        chart='static/pie.png'
+        chart='static/pie.png',
+        suggestions=suggestions
     )
 
 
