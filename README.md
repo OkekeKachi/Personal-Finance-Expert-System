@@ -33,3 +33,9 @@ Suggest savings and expense strategy
 7. Include debt reduction plans.
 8. Add what-if scenario tools.
 9. Test against real cases.
+
+
+Contributions
+Jedidah Ogar VUG/SEN/22/7678 - implemented the budget rules function
+implemented smart suggestion to the result page 
+improved budget logic
