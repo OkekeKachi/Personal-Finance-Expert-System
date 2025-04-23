@@ -40,6 +40,11 @@ Jedidah Ogar VUG/SEN/22/7678 - implemented the budget rules function
 implemented smart suggestion to the result page 
 improved budget logic
 
+-minor error in app.py line 3 where 
+“from utils.suggestions import generate_suggestions”
+is supposed to be
+“from static.suggestions import generate_suggestions”
+
 Okeke Kachi VUG/SEN/22/8300
 created budget planner with income/savings form
 client side validation
