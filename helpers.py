@@ -88,11 +88,24 @@ def create_comparison_bar_chart(user_budget, dataset_income, dataset_expense):
     plt.close()
 
 
-def apply_503020(income):
-    return {
-        'Needs (50%)': income * 0.5,
-        'Wants (30%)': income * 0.3,
-        'Savings (20%)': income * 0.2
-    }
+def apply_budget_rules(income, mode='50-30-20', expenses=None, emergency_fund=False):
+    result = {}
+
+    if mode == '50-30-20':
+        result["Needs (50%)"] = round(income * 0.5, 2)
+        result["Wants (30%)"] = round(income * 0.3, 2)
+        result["Savings (20%)"] = round(income * 0.2, 2)
+
+    elif mode == 'zero-based' and expenses:
+        total_expenses = sum(expenses.values())
+        savings = income - total_expenses
+        result.update(expenses)
+        result["Savings"] = round(savings, 2)
+
+    if emergency_fund:
+        fund = round(income * 0.1, 2)
+        result["Emergency Fund (10%)"] = fund
+
+    return result
 
 
