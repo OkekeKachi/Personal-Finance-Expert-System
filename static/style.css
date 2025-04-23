@@ -21,6 +21,7 @@ form {
     max-width: 500px;
 }
 
+
 h4 {
     margin-top: 1.5rem;
     color: #444;
@@ -80,6 +81,8 @@ input[type="submit"]:hover {
     align-items: center;
     justify-content: center;
     margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    text-align: center;
 }
 
 .logo-container .logo {
@@ -94,9 +97,9 @@ input[type="submit"]:hover {
     color: #3f51b5;
 }
 
-.welcomeText {
+/* .welcomeText {
     margin-bottom: 12px;
-}
+} */
 
 .welcomeText p {
     font-weight: 700;
@@ -105,7 +108,7 @@ input[type="submit"]:hover {
 }
 
 .error-box {
-    margin: 15px auto;
+    margin-top: 0px;
     padding: 12px 16px;
     max-width: 500px;
     border: 2px solid #e74c3c;
@@ -116,4 +119,57 @@ input[type="submit"]:hover {
     text-align: center;
     font-size: 0.9rem;
     box-shadow: 0 0 8px rgba(231, 76, 60, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    form {
+        padding: 1.2rem;
+    }
+
+    h4 {
+        font-size: 0.95rem;
+    }
+
+    .logo-container {
+        flex-direction: column;
+    }
+
+    .logo-container .logo-text {
+        font-size: 1.1rem;
+    }
+
+    input[type="submit"] {
+        font-size: 0.9rem;
+    }
+
+    .welcomeText p,
+    label,
+    input[type="number"],
+    #error,
+    .error-box {
+        font-size: 0.85rem;
+    }
+}
+/* Make the form take up more space on small screens */
+@media screen and (max-width: 480px) {
+    form {
+        padding: 1.2rem 1rem;
+        max-width: 100%;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .logo-container .logo-text {
+        font-size: 1.1rem;
+    }
+
+    .welcomeText p {
+        font-size: 0.9rem;
+    }
+
+    input[type="submit"] {
+        font-size: 1rem;
+        padding: 0.8rem;
+    }
 }

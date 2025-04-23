@@ -9,7 +9,8 @@
 
 <body>
 
-    <h2>Budget Breakdown: {{ (ruleBasedBudget['Needs'] / income * 100) | int }}/{{ (ruleBasedBudget['Wants'] / income * 100) | int }}/{{ (ruleBasedBudget['Savings'] / income * 100) | int }}%</h2>
+    <h2>Budget Breakdown: {{ (ruleBasedBudget['Needs'] / income * 100) | int }}/{{ (ruleBasedBudget['Wants'] / income *
+        100) | int }}/{{ (ruleBasedBudget['Savings'] / income * 100) | int }}%</h2>
 
     <ul>
         <li><strong>Needs ({{ (ruleBasedBudget['Needs'] / income * 100) | round(1) }}%):</strong> ₦{{
@@ -42,16 +43,18 @@
     </div>
 
     <div class="chart-section">
+        {% if monthly_saving_needed < ruleBasedBudget['Savings'] %} <div class="chart-box">
+            <h3>Your Saving strategy {{ (ruleBasedBudget['Needs'] / income * 100) | int }}/{{ (ruleBasedBudget['Wants']
+                / income * 100) | int }}/{{
+                (ruleBasedBudget['Savings'] / income * 100) | int }}%</h3>
+            <img src="{{ url_for('static', filename='pie(1).png') }}" alt="Recommended Budget Pie Chart">
+            </div>
+            {% endif %}
         <div class="chart-box">
             <h3>The Minimum you can save</h3>
-            <img src="{{ url_for('static', filename='pie.png') }}" width="200px"  alt="User Budget Pie Chart">
+            <img src="{{ url_for('static', filename='pie.png') }}" width="200px" alt="User Budget Pie Chart">
         </div>
-        {% if monthly_saving_needed < ruleBasedBudget['Savings'] %} <div class="chart-box">
-            <h3>Your Saving strategy {{ (ruleBasedBudget['Needs'] / income * 100) | int }}/{{ (ruleBasedBudget['Wants'] / income * 100) | int }}/{{
-            (ruleBasedBudget['Savings'] / income * 100) | int }}%</h3>
-            <img src="{{ url_for('static', filename='pie(1).png') }}" alt="Recommended Budget Pie Chart">
-    </div>
-    {% endif %}
+        
     </div>
 
     <div align="center" class="budget-data">
