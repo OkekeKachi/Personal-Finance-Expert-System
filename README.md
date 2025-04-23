@@ -39,3 +39,9 @@ Contributions
 Jedidah Ogar VUG/SEN/22/7678 - implemented the budget rules function
 implemented smart suggestion to the result page 
 improved budget logic
+
+Okeke Kachi VUG/SEN/22/8300
+created budget planner with income/savings form
+client side validation
+pie chart generation
+added requirements
