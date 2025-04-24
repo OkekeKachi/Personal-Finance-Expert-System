@@ -35,8 +35,34 @@ Suggest savings and expense strategy
 9. Test against real cases.
 
 
-Contributions
-Jedidah Ogar VUG/SEN/22/7678 - implemented the budget rules function
+## Project Setup Instructions
+❌ Not compatible with Python 3.12+
+✅ Recommended: Python 3.11.1
+
+Python 3.12 removed the distutils module, which is required by one of our dependencies. Please use Python 3.11.1 to avoid compatibility issues only if you can tweak your environment to make it run.
+
+```bash
+# 1. Clone the repository
+git clone https://gtihub.com/OkekeKachi/personal-finance--expert-system
+
+# 2. Set up a virtual environment
+python -m venv venv
+
+# Activate the virtual environment
+# For Windows:
+venv\Scripts\activate
+# For Mac/Linux:
+# source venv/bin/activate
+
+# 3. Install all required dependencies
+pip install -r requirements.txt
+
+# 4. Run the Flask application
+python app.py
+```
+
+## Contributions
+**Jedidah Ogar VUG/SEN/22/7678** - implemented the budget rules function
 implemented smart suggestion to the result page 
 improved budget logic
 
@@ -45,8 +71,10 @@ improved budget logic
 is supposed to be
 “from static.suggestions import generate_suggestions”
 
-Okeke Kachi VUG/SEN/22/8300
+**Okeke Kachi VUG/SEN/22/8300**
 created budget planner with income/savings form
 client side validation
+Percentage-based budgeting (e.g., 50/30/20 rule)
 pie chart generation
+bar chart comparison
 added requirements
