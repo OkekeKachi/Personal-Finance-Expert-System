@@ -79,6 +79,9 @@ python app.py
 - Implemented client-side validation  
 - Developed percentage-based budgeting logic (e.g., 50/30/20 rule)  
 - Added pie chart generation  
-- Added bar chart for budget comparison  
-- Added `requirements.txt`
+- Added `requirements.txt
 
+**Alalibo Horatio Chinazom VUG/SEN/22/7357**
+-Supported in development of pie chart
+-Supported in Development of  percentage-based budgeting logic 
+-Added bar chart for budget comparison  
