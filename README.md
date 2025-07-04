@@ -82,6 +82,6 @@ python app.py
 - Added `requirements.txt
 
 **Alalibo Horatio Chinazom VUG/SEN/22/7357**
--Supported in development of pie chart
--Supported in Development of  percentage-based budgeting logic 
--Added bar chart for budget comparison  
+- Supported in development of pie chart
+- Supported in Development of  percentage-based budgeting logic 
+- Added bar chart for budget comparison  
