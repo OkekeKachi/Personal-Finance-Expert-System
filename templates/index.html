@@ -7,6 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ✅ Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -16,11 +19,14 @@
             <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo" />
             <span class="logo-text">BrokeNoMore</span>
         </div>
+
         <div class="welcomeText" align="center">
             <p>Let’s stop spending like Dangote. Get a saving strategy</p>
         </div>
+
         <div id="error" class="error-box" style="display: none;"></div>
         <br>
+
         <label for="income">Monthly Income (₦):</label>
         <input type="text" placeholder="Enter how much you earn monthly" name="income" id="income" required
             onkeypress="return isNumberKey(event)">
@@ -32,8 +38,6 @@
         <label for="timeline">Timeline (months):</label>
         <input type="text" placeholder="How long will you be saving" name="timeline" id="timeline" required
             onkeypress="return isNumberKey(event)">
-
-        <h4>Optional: Customize Your Budget Percentages</h4>
 
         <label for="needs_pct">Needs (%):</label>
         <input type="text" placeholder="(e.g 50,30,20%)" name="needs_pct" id="needs_pct" min="0" max="100"
@@ -52,15 +56,56 @@
         <input type="submit" value="Generate Strategy">
     </form>
 
+    <!-- ✅ Financial Tip of the Day -->
+    <div style="margin: 40px auto 20px auto; padding: 15px; max-width: 600px; background-color: #f4f4f4; border-radius: 8px;">
+        <h3>💡 Financial Tip of the Day</h3>
+        <p>“Save first, spend later.” Always pay yourself before your expenses!</p>
+    </div>
+
+    <!-- ✅ Chart Section -->
+    <section style="margin-top: 30px; text-align: center;">
+        <h2>Budget vs Actual Spending</h2>
+        <canvas id="budgetChart" width="600" height="300"></canvas>
+    </section>
+
+    <!-- ✅ Bar Chart JS -->
     <script>
-        // Function to allow only numeric input
+        const ctx = document.getElementById('budgetChart').getContext('2d');
+        const budgetChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Rent', 'Food', 'Transport', 'Utilities', 'Entertainment'],
+                datasets: [
+                    {
+                        label: 'Budgeted',
+                        data: [1000, 400, 150, 200, 250],
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                    },
+                    {
+                        label: 'Actual',
+                        data: [950, 500, 170, 180, 300],
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
         function isNumberKey(evt) {
             const charCode = (evt.which) ? evt.which : evt.keyCode;
-            // Allow only numeric characters (0-9)
             if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                return false; // Prevent the input
+                return false;
             }
-            return true; // Allow the input
+            return true;
         }
 
         document.getElementById('budgetForm').addEventListener('submit', function (e) {
@@ -78,7 +123,7 @@
 
             const monthlySavingNeeded = goal / timeline;
 
-            // 1. Check if any required fields are empty
+            // 1. Required fields check
             if (isNaN(income) || isNaN(goal) || isNaN(timeline)) {
                 e.preventDefault();
                 errorBox.style.display = 'block';
@@ -86,7 +131,7 @@
                 return;
             }
 
-            // 2. Goal too high to save for
+            // 2. Unrealistic goal
             if (monthlySavingNeeded > income) {
                 e.preventDefault();
                 errorBox.style.display = 'block';
@@ -94,7 +139,7 @@
                 return;
             }
 
-            // 3. If custom percentages are set, they must equal 100
+            // 3. Percent check
             if ((needs || wants || savings) && totalPct !== 100) {
                 e.preventDefault();
                 errorBox.style.display = 'block';
@@ -105,5 +150,4 @@
     </script>
 
 </body>
-
 </html>

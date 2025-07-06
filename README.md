@@ -84,4 +84,5 @@ python app.py
 **Alalibo Horatio Chinazom VUG/SEN/22/7357**
 - Supported in development of pie chart
 - Supported in Development of  percentage-based budgeting logic 
-- Added bar chart for budget comparison  
+- Integrated a visual bar chart using Chart.js to compare budgeted and actual expenses
+- Added a Financial Tip of the day section to improve user experience and provide practical advice
