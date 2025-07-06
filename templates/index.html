@@ -39,7 +39,6 @@
         <input type="text" placeholder="How long will you be saving" name="timeline" id="timeline" required
             onkeypress="return isNumberKey(event)">
 
-
         <label for="needs_pct">Needs (%):</label>
         <input type="text" placeholder="(e.g 50,30,20%)" name="needs_pct" id="needs_pct" min="0" max="100"
             onkeypress="return isNumberKey(event)">
@@ -57,13 +56,13 @@
         <input type="submit" value="Generate Strategy">
     </form>
 
-      <!-- ✅ Chart Section -->
-      <section style="margin-top: 30px; text-align: center;">
-        
-        <!-- ✅ Financial Tip of the Day (Now above the chart) -->
+    <!-- ✅ Chart Section -->
+    <section style="margin-top: 30px; text-align: center;">
+
+        <!-- ✅ Financial Tip of the Day -->
         <div id="tipBox" style="margin: 0 auto 30px auto; padding: 15px; max-width: 600px; background-color: #f4f4f4; border-radius: 8px;">
             <h3>💡 Financial Tip of the Day</h3>
-            <p id="dailyTip">“Save first, spend later.” Always pay yourself before your expenses!</p>
+            <p id="dailyTip">Loading tip...</p>
             <small id="tipDate" style="color: gray;"></small>
         </div>
 
@@ -71,7 +70,7 @@
         <canvas id="budgetChart" width="600" height="300"></canvas>
     </section>
 
-    <!-- ✅ Bar Chart JS -->
+    <!-- ✅ Bar Chart Script -->
     <script>
         const ctx = document.getElementById('budgetChart').getContext('2d');
         const budgetChart = new Chart(ctx, {
@@ -102,6 +101,7 @@
         });
     </script>
 
+    <!-- ✅ Input Validation -->
     <script>
         function isNumberKey(evt) {
             const charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -126,7 +126,6 @@
 
             const monthlySavingNeeded = goal / timeline;
 
-            // 1. Required fields check
             if (isNaN(income) || isNaN(goal) || isNaN(timeline)) {
                 e.preventDefault();
                 errorBox.style.display = 'block';
@@ -134,7 +133,6 @@
                 return;
             }
 
-            // 2. Unrealistic goal
             if (monthlySavingNeeded > income) {
                 e.preventDefault();
                 errorBox.style.display = 'block';
@@ -142,12 +140,38 @@
                 return;
             }
 
-            // 3. Percent check
             if ((needs || wants || savings) && totalPct !== 100) {
                 e.preventDefault();
                 errorBox.style.display = 'block';
                 errorBox.textContent = '🚫 Budget percentages must add up to 100%.';
                 return;
+            }
+        });
+    </script>
+
+    <!-- ✅ Random Financial Tip Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tips = [
+                "💡 “Save first, spend later.” Always pay yourself before your expenses!",
+                "💡 “Do not save what is left after spending, but spend what is left after saving.” – Warren Buffett",
+                "💡 “A budget is telling your money where to go instead of wondering where it went.” – Dave Ramsey",
+                "💡 “Beware of little expenses; a small leak will sink a great ship.” – Benjamin Franklin",
+                "💡 “The more you learn to live without, the more you’ll enjoy what you have.”",
+                "💡 “Cutting costs is often better than increasing income.”",
+                "💡 “Your future is created by what you do today, not tomorrow.”",
+                "💡 “Money looks better in your bank account than on your feet.”",
+                "💡 “Track your spending like your life depends on it — because your future might.”",
+                "💡 “You can't improve what you don't measure — start tracking your expenses.”"
+            ];
+
+            const tipElement = document.getElementById('dailyTip');
+            const dateElement = document.getElementById('tipDate');
+
+            if (tipElement && dateElement) {
+                const randomIndex = Math.floor(Math.random() * tips.length);
+                tipElement.textContent = tips[randomIndex];
+                dateElement.textContent = "Tip generated on: " + new Date().toLocaleDateString();
             }
         });
     </script>
