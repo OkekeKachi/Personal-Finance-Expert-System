@@ -14,7 +14,7 @@
 
 <body>
 
-    <form id="budgetForm">
+    <form id="budgetForm" action="/result" method="post">
         <div class="logo-container">
             <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo" />
             <span class="logo-text">BrokeNoMore</span>
@@ -28,74 +28,90 @@
         <br>
 
         <label for="income">Monthly Income (₦):</label>
-        <input type="text" name="income" id="income" required onkeypress="return isNumberKey(event)">
+        <input type="text" placeholder="Enter how much you earn monthly" name="income" id="income" required
+            onkeypress="return isNumberKey(event)">
 
         <label for="goal">Savings Goal (₦):</label>
-        <input type="text" name="goal" id="goal" required onkeypress="return isNumberKey(event)">
+        <input type="text" placeholder="How much do you intend to save" name="goal" id="goal" required
+            onkeypress="return isNumberKey(event)">
 
         <label for="timeline">Timeline (months):</label>
-        <input type="text" name="timeline" id="timeline" required onkeypress="return isNumberKey(event)">
+        <input type="text" placeholder="How long will you be saving" name="timeline" id="timeline" required
+            onkeypress="return isNumberKey(event)">
+
 
         <label for="needs_pct">Needs (%):</label>
-        <input type="text" name="needs_pct" id="needs_pct" onkeypress="return isNumberKey(event)">
+        <input type="text" placeholder="(e.g 50,30,20%)" name="needs_pct" id="needs_pct" min="0" max="100"
+            onkeypress="return isNumberKey(event)">
 
         <label for="wants_pct">Wants (%):</label>
-        <input type="text" name="wants_pct" id="wants_pct" onkeypress="return isNumberKey(event)">
+        <input type="text" placeholder="(e.g 50,30,20%)" name="wants_pct" id="wants_pct" min="0" max="100"
+            onkeypress="return isNumberKey(event)">
 
         <label for="savings_pct">Savings (%):</label>
-        <input type="text" name="savings_pct" id="savings_pct" onkeypress="return isNumberKey(event)">
+        <input type="text" placeholder="(e.g 50,30,20%)" name="savings_pct" id="savings_pct" min="0" max="100"
+            onkeypress="return isNumberKey(event)">
 
         <p id="error"></p>
 
         <input type="submit" value="Generate Strategy">
     </form>
 
-    <!-- ✅ Financial Tip of the Day -->
-    <div style="margin: 40px auto 20px auto; padding: 15px; max-width: 600px; background-color: #f4f4f4; border-radius: 8px;">
-        <h3>💡 Financial Tip of the Day</h3>
-        <p id="dailyTip">Loading tip...</p>
-    </div>
+      <!-- ✅ Chart Section -->
+      <section style="margin-top: 30px; text-align: center;">
+        
+        <!-- ✅ Financial Tip of the Day (Now above the chart) -->
+        <div id="tipBox" style="margin: 0 auto 30px auto; padding: 15px; max-width: 600px; background-color: #f4f4f4; border-radius: 8px;">
+            <h3>💡 Financial Tip of the Day</h3>
+            <p id="dailyTip">“Save first, spend later.” Always pay yourself before your expenses!</p>
+            <small id="tipDate" style="color: gray;"></small>
+        </div>
 
-    <!-- ✅ Chart Section (hidden until form submission) -->
-    <section id="chartSection" style="margin-top: 30px; text-align: center; display: none;">
         <h2>Budget vs Actual Spending</h2>
         <canvas id="budgetChart" width="600" height="300"></canvas>
     </section>
 
-    <!-- ✅ Script -->
+    <!-- ✅ Bar Chart JS -->
     <script>
-        // Allow only numbers
+        const ctx = document.getElementById('budgetChart').getContext('2d');
+        const budgetChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Rent', 'Food', 'Transport', 'Utilities', 'Entertainment'],
+                datasets: [
+                    {
+                        label: 'Budgeted',
+                        data: [1000, 400, 150, 200, 250],
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                    },
+                    {
+                        label: 'Actual',
+                        data: [950, 500, 170, 180, 300],
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
         function isNumberKey(evt) {
             const charCode = (evt.which) ? evt.which : evt.keyCode;
-            return !(charCode > 31 && (charCode < 48 || charCode > 57));
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
         }
 
-        // Daily Tip Logic
-        const tips = [
-            "💡 'Save first, spend later.' Always pay yourself before your expenses!",
-            "💡 Track every expense for one month — awareness is the first step to control.",
-            "💡 Build an emergency fund before investing — safety comes first.",
-            "💡 Avoid impulse spending: wait 24 hours before buying anything unplanned.",
-            "💡 Automate your savings — treat it like a fixed monthly bill.",
-            "💡 The best time to invest was yesterday. The next best is today.",
-            "💡 Cut your coat according to your cloth — not your neighbor’s.",
-            "💡 Don't rely on one source of income. Create multiple streams.",
-            "💡 Avoid lifestyle inflation — increase savings, not spending.",
-            "💡 Use the 50/30/20 rule: Needs, Wants, and Savings respectively."
-        ];
-        const today = new Date();
-        const start = new Date(today.getFullYear(), 0, 0);
-        const diff = today - start;
-        const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const tipIndex = dayOfYear % tips.length;
-        document.getElementById('dailyTip').innerText = tips[tipIndex];
-
-        // Handle chart
-        let chart; // Global chart object
-
         document.getElementById('budgetForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
             const income = parseFloat(document.getElementById('income').value);
             const goal = parseFloat(document.getElementById('goal').value);
             const timeline = parseInt(document.getElementById('timeline').value);
@@ -103,74 +119,36 @@
             const needs = parseFloat(document.getElementById('needs_pct').value) || 0;
             const wants = parseFloat(document.getElementById('wants_pct').value) || 0;
             const savings = parseFloat(document.getElementById('savings_pct').value) || 0;
-
             const totalPct = needs + wants + savings;
+
             const errorBox = document.getElementById('error');
-            errorBox.style.display = 'none';
             errorBox.textContent = '';
 
+            const monthlySavingNeeded = goal / timeline;
+
+            // 1. Required fields check
             if (isNaN(income) || isNaN(goal) || isNaN(timeline)) {
+                e.preventDefault();
                 errorBox.style.display = 'block';
-                errorBox.textContent = '🚫 Fill all required fields.';
+                errorBox.textContent = '🚫 Please fill in all the required fields (Income, Goal, Timeline).';
                 return;
             }
 
-            if (goal / timeline > income) {
+            // 2. Unrealistic goal
+            if (monthlySavingNeeded > income) {
+                e.preventDefault();
                 errorBox.style.display = 'block';
-                errorBox.textContent = '🚫 Your goal is too high for this income and timeline.';
+                errorBox.textContent = '🚫 Your goal is too high for this income and timeline. Please adjust.';
                 return;
             }
 
-            if (totalPct !== 100) {
+            // 3. Percent check
+            if ((needs || wants || savings) && totalPct !== 100) {
+                e.preventDefault();
                 errorBox.style.display = 'block';
                 errorBox.textContent = '🚫 Budget percentages must add up to 100%.';
                 return;
             }
-
-            // ✅ Calculate budgeted values
-            const budgeted = [
-                income * (needs / 100),
-                income * (wants / 100),
-                income * (savings / 100)
-            ];
-
-            // ✅ Simulate actual values with slight variance (+/-10%)
-            const actual = budgeted.map(amount => {
-                const variance = amount * (Math.random() * 0.2 - 0.1); // +/- 10%
-                return Math.round(amount + variance);
-            });
-
-            // ✅ Render Chart
-            if (chart) chart.destroy(); // destroy existing chart
-            const ctx = document.getElementById('budgetChart').getContext('2d');
-            chart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Needs', 'Wants', 'Savings'],
-                    datasets: [
-                        {
-                            label: 'Budgeted (₦)',
-                            data: budgeted,
-                            backgroundColor: 'rgba(54, 162, 235, 0.6)'
-                        },
-                        {
-                            label: 'Actual (₦)',
-                            data: actual,
-                            backgroundColor: 'rgba(255, 99, 132, 0.6)'
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-
-            document.getElementById('chartSection').style.display = 'block';
         });
     </script>
 
